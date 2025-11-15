@@ -14,7 +14,7 @@ Features:
 import asyncio
 import os
 from apify import Actor
-from mcp_server import start_mcp_server
+from src.mcp_server import start_mcp_server
 
 
 async def main():

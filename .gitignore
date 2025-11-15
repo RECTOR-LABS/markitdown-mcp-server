@@ -12,3 +12,6 @@ tsconfig.tsbuildinfo
 
 # Added by Apify CLI
 .venv
+__pycache__/
+*.pyc
+.DS_Store
