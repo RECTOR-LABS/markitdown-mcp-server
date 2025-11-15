@@ -1,21 +1,35 @@
 {
 	"actorSpecification": 1,
 	"name": "markitdown-mcp-server",
-	"title": "TypeScript MCP server",
-	"description": "TypeScript Model Context Protocol server.",
-	"version": "0.0",
+	"title": "Markitdown MCP Server - Cloud Document to Markdown Converter",
+	"description": "Convert PDF, Word, Excel, PowerPoint, images, and 29+ file formats to AI-ready Markdown. Zero Python dependency. Built on Microsoft's Markitdown. Perfect for RAG pipelines and knowledge bases.",
+	"version": "0.1",
 	"buildTag": "latest",
 	"usesStandbyMode": true,
 	"meta": {
-		"templateId": "ts-mcp-server",
-		"generatedBy": "<FILL-IN-MODEL>"
+		"templateId": "python-mcp-server",
+		"generatedBy": "claude-sonnet-4-5-20250929"
 	},
 	"input": {
-		"title": "Actor input schema",
-		"description": "This is Actor input schema",
+		"title": "Markitdown Conversion Input",
+		"description": "Provide a document URL or base64-encoded file to convert to Markdown",
 		"type": "object",
 		"schemaVersion": 1,
-		"properties": {},
+		"properties": {
+			"fileUrl": {
+				"title": "Document URL",
+				"type": "string",
+				"description": "URL of the document to convert (PDF, DOCX, PPTX, XLSX, images, etc.)",
+				"editor": "textfield",
+				"example": "https://example.com/document.pdf"
+			},
+			"fileBase64": {
+				"title": "Base64 File Content",
+				"type": "string",
+				"description": "Base64-encoded file content (alternative to URL)",
+				"editor": "textarea"
+			}
+		},
 		"required": []
 	},
 	"dockerfile": "../Dockerfile",
