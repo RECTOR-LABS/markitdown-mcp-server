@@ -68,7 +68,7 @@ Create or edit `~/Library/Application Support/Claude/claude_desktop_config.json`
       "args": [
         "-y",
         "mcp-remote",
-        "https://YOUR_ACTOR_URL.apify.actor/mcp",
+        "https://rector-labs--markitdown-mcp-server.apify.actor/mcp",
         "--header",
         "Authorization: Bearer YOUR_APIFY_TOKEN"
       ]
@@ -95,7 +95,7 @@ Claude will automatically use the Markitdown tool!
 #### Direct HTTP Request
 
 ```bash
-curl -X POST https://api.apify.com/v2/acts/YOUR_USERNAME~markitdown-mcp-server/runs \
+curl -X POST https://api.apify.com/v2/acts/rector_labs~markitdown-mcp-server/runs \
   -H "Authorization: Bearer YOUR_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -109,7 +109,7 @@ curl -X POST https://api.apify.com/v2/acts/YOUR_USERNAME~markitdown-mcp-server/r
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_API_TOKEN')
-run = client.actor('YOUR_USERNAME/markitdown-mcp-server').call(
+run = client.actor('rector_labs/markitdown-mcp-server').call(
     run_input={
         'fileUrl': 'https://example.com/document.pdf'
     }
@@ -127,7 +127,7 @@ import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_API_TOKEN' });
 
-const run = await client.actor('YOUR_USERNAME/markitdown-mcp-server').call({
+const run = await client.actor('rector_labs/markitdown-mcp-server').call({
   fileUrl: 'https://example.com/document.pdf'
 });
 
@@ -212,7 +212,7 @@ Process hundreds of documents in parallel using Apify's infrastructure.
       "args": [
         "-y",
         "mcp-remote",
-        "https://YOUR_ACTOR_URL.apify.actor/mcp",
+        "https://rector-labs--markitdown-mcp-server.apify.actor/mcp",
         "--header",
         "Authorization: Bearer YOUR_APIFY_TOKEN"
       ]
@@ -229,7 +229,7 @@ Process hundreds of documents in parallel using Apify's infrastructure.
 
 ### Make.com (Integromat)
 1. Add **Apify** module
-2. Select actor: `YOUR_USERNAME/markitdown-mcp-server`
+2. Select actor: `rector_labs/markitdown-mcp-server`
 3. Map file URL from trigger
 4. Use output in next steps
 
@@ -490,7 +490,7 @@ Go to Actor settings and enable standby mode.
 
 4. **Get Your Actor URL**
 
-Your MCP endpoint will be: `https://YOUR_USERNAME--markitdown-mcp-server.apify.actor/mcp`
+Your MCP endpoint will be: `https://rector-labs--markitdown-mcp-server.apify.actor/mcp`
 
 5. **Connect AI Agents**
 
