@@ -16,3 +16,48 @@ node_modules
 
 # dist folder
 dist
+
+# SECURITY: Exclude security-sensitive files
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example
+secrets/
+.aws/
+.ssh/
+credentials.json
+*.credentials
+
+# SECURITY: Exclude development and test files
+tests/
+test_*.py
+*_test.py
+pytest_cache/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.coverage
+htmlcov/
+
+# Documentation (exclude from production image)
+docs/
+*.md
+!README.md
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# Local development
+.DS_Store
+Thumbs.db
+.venv/
+venv/
+env/
