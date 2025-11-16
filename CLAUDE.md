@@ -285,6 +285,31 @@ curl -X POST http://localhost:XXXX/mcp \
 - **Simpler codebase**: No TypeScript ↔ Python bridge
 - **Better reliability**: Battle-tested at enterprise scale
 
+### Smart Standby Mode Auto-Detection
+
+**Feature**: Automatically enables standby mode for local development
+
+**How it works**:
+- **Local development**: `apify run` → auto-detects → enables standby mode ✅
+- **Apify Cloud**: Uses `usesStandbyMode: true` from actor.json ✅
+- **Detection methods**: Checks `APIFY_IS_AT_HOME`, `APIFY_ACTOR_ID`, `APIFY_DEFAULT_KEY_VALUE_STORE_ID`
+
+**Benefits**:
+- No need to set environment variables for local testing
+- Clear logging: "🔧 Local development detected - auto-enabling standby mode"
+- Fail-safe: Still requires standby mode on Cloud (production safety)
+
+**Usage**:
+```bash
+# Local development (auto-detects)
+$ apify run
+✅ Just works!
+
+# Production (uses actor.json setting)
+$ apify push
+✅ Deploys with standby mode enabled
+```
+
 ---
 
 **Last Updated**: November 16, 2025
