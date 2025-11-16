@@ -54,39 +54,61 @@ Convert **29+ file formats** to clean Markdown:
 
 ## 🎬 Quick Start
 
-### For AI Users (Claude Desktop)
+> **📖 [Full Installation Guide](INSTALLATION.md)** - Complete setup for Claude Code CLI, Claude Desktop, Cursor, VS Code, and more
 
-1. **Add to MCP Configuration**
+### Claude Code CLI (Recommended)
 
-Create or edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```bash
+# Add the server with one command
+claude mcp add --transport http markitdown \
+  https://api.apify.com/v2/acts/rector_labs~markitdown-mcp-server/mcp/latest
+
+# Authenticate (opens browser for OAuth)
+/mcp
+```
+
+Then in Claude Code:
+```
+Convert this PDF to markdown: https://example.com/document.pdf
+```
+
+### Claude Desktop
+
+**macOS**: Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: Edit `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "markitdown": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://rector-labs--markitdown-mcp-server.apify.actor/mcp",
-        "--header",
-        "Authorization: Bearer YOUR_APIFY_TOKEN"
-      ]
+      "url": "https://api.apify.com/v2/acts/rector_labs~markitdown-mcp-server/mcp/latest",
+      "transport": {
+        "type": "http",
+        "headers": {
+          "Authorization": "Bearer YOUR_APIFY_TOKEN"
+        }
+      }
     }
   }
 }
 ```
 
-2. **Restart Claude Desktop**
+Restart Claude Desktop and start converting!
 
-3. **Convert Documents**
+### Cursor IDE
 
-Simply ask Claude:
-```
-"Convert this PDF to markdown: https://example.com/document.pdf"
-```
+1. Open **Settings** → **MCP Servers**
+2. Click **Add new MCP server**
+3. Paste configuration (see [INSTALLATION.md](INSTALLATION.md#cursor-ide))
+4. Enable and look for green dot ✅
 
-Claude will automatically use the Markitdown tool!
+### Get Your Apify Token
+
+1. Sign up at [apify.com](https://console.apify.com/sign-up) (free tier available)
+2. Go to **Settings** → **Integrations**
+3. Copy your **API Token**
+
+**📖 [View detailed installation guides for all clients →](INSTALLATION.md)**
 
 ---
 
@@ -203,23 +225,18 @@ Process hundreds of documents in parallel using Apify's infrastructure.
 
 ## 🔌 Integrations
 
-### Claude Desktop
-```json
-{
-  "mcpServers": {
-    "markitdown": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://rector-labs--markitdown-mcp-server.apify.actor/mcp",
-        "--header",
-        "Authorization: Bearer YOUR_APIFY_TOKEN"
-      ]
-    }
-  }
-}
-```
+### MCP Clients
+
+**Supported clients**:
+- ✅ **[Claude Code CLI](INSTALLATION.md#claude-code-cli)** - Native HTTP transport with OAuth
+- ✅ **[Claude Desktop](INSTALLATION.md#claude-desktop)** - JSON configuration
+- ✅ **[Cursor IDE](INSTALLATION.md#cursor-ide)** - UI-based installation
+- ✅ **[VS Code](INSTALLATION.md#vs-code)** - Via MCP extensions
+- ✅ **[Other MCP clients](INSTALLATION.md#other-mcp-clients)** - Windsurf, Zed, etc.
+
+**📖 [View detailed setup guides →](INSTALLATION.md)**
+
+### Workflow Automation
 
 ### n8n Workflow
 1. Add **Apify** node
