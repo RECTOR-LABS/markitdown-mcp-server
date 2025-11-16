@@ -1,0 +1,33 @@
+{
+  "title": "Markitdown MCP Server Output",
+  "type": "object",
+  "description": "Conversion event logs from the Markitdown MCP Server",
+  "schemaVersion": 1,
+  "properties": {
+    "event": {
+      "type": "string",
+      "description": "Event type (conversion_success or conversion_failed)",
+      "editor": "textfield",
+      "example": "conversion_success"
+    },
+    "file_size": {
+      "type": "integer",
+      "description": "Size of the input file in bytes",
+      "editor": "number",
+      "example": 153847
+    },
+    "markdown_length": {
+      "type": "integer",
+      "description": "Length of the converted Markdown output in characters",
+      "editor": "number",
+      "example": 5432
+    },
+    "file_type": {
+      "type": "string",
+      "description": "File extension of the converted document",
+      "editor": "textfield",
+      "example": ".pdf"
+    }
+  },
+  "required": ["event", "file_type"]
+}
