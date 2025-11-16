@@ -32,6 +32,45 @@
 		},
 		"required": []
 	},
+	"storages": {
+		"dataset": {
+			"actorSpecification": 1,
+			"views": {
+				"overview": {
+					"title": "Conversion Events",
+					"transformation": {
+						"fields": [
+							"event",
+							"file_type",
+							"file_size",
+							"markdown_length"
+						]
+					},
+					"display": {
+						"component": "table",
+						"properties": {
+							"event": {
+								"label": "Event Type",
+								"format": "text"
+							},
+							"file_type": {
+								"label": "File Type",
+								"format": "text"
+							},
+							"file_size": {
+								"label": "File Size (bytes)",
+								"format": "number"
+							},
+							"markdown_length": {
+								"label": "Markdown Length",
+								"format": "number"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
 	"dockerfile": "../Dockerfile",
 	"webServerMcpPath": "/mcp"
 }
