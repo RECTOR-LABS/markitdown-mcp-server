@@ -297,36 +297,6 @@ async def start_mcp_server(port: int = 3001):
         streamable_http_path="/mcp"  # MCP endpoint path
     )
 
-    # SECURITY: Add HTTP security headers middleware
-    @mcp.app.middleware("http")
-    async def add_security_headers(request, call_next):
-        """Add security headers to all HTTP responses."""
-        response = await call_next(request)
-
-        # Prevent MIME type sniffing
-        response.headers["X-Content-Type-Options"] = "nosniff"
-
-        # Prevent clickjacking
-        response.headers["X-Frame-Options"] = "DENY"
-
-        # Enable XSS protection
-        response.headers["X-XSS-Protection"] = "1; mode=block"
-
-        # Strict transport security (HTTPS only in production)
-        # Commented out as MCP servers typically run behind reverse proxy
-        # response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-
-        # Content Security Policy
-        response.headers["Content-Security-Policy"] = "default-src 'self'"
-
-        # Referrer policy
-        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-
-        # Permissions policy
-        response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
-
-        return response
-
     # Register the convert_to_markdown tool
     @mcp.tool()
     async def convert_to_markdown_tool(file_url: str = None, file_base64: str = None) -> str:
