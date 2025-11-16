@@ -12,9 +12,8 @@ from urllib.parse import urlparse
 import httpx
 from markitdown import MarkItDown
 from apify import Actor
-from mcp.server import Server
-from mcp.server.stdio import stdio_server
-from mcp.types import Tool, TextContent
+from mcp.server.fastmcp import FastMCP
+from mcp.types import  Tool, TextContent
 
 
 # Initialize Markitdown converter
@@ -118,55 +117,45 @@ async def convert_to_markdown(arguments: Dict[str, Any]) -> str:
 
 async def start_mcp_server(port: int = 3001):
     """
-    Start the MCP server with Markitdown tools.
+    Start the MCP server with Markitdown tools using HTTP transport.
 
     Args:
-        port: Port number for the server
+        port: Port number for the HTTP server
     """
-    # Create MCP server instance
-    server = Server("markitdown-mcp-server")
+    # Create FastMCP server instance with HTTP configuration
+    mcp = FastMCP(
+        name="Markitdown MCP Server",
+        host="0.0.0.0",  # Listen on all interfaces
+        port=port,
+        streamable_http_path="/mcp"  # MCP endpoint path
+    )
 
     # Register the convert_to_markdown tool
-    @server.list_tools()
-    async def list_tools() -> list[Tool]:
-        return [
-            Tool(
-                name="convert_to_markdown",
-                description=(
-                    "Convert documents (PDF, DOCX, PPTX, XLSX, images, etc.) to clean Markdown. "
-                    "Supports 29+ file formats. Ideal for RAG pipelines, knowledge bases, and AI workflows."
-                ),
-                inputSchema={
-                    "type": "object",
-                    "properties": {
-                        "fileUrl": {
-                            "type": "string",
-                            "description": "URL of the document to convert",
-                        },
-                        "fileBase64": {
-                            "type": "string",
-                            "description": "Base64-encoded file content (alternative to fileUrl)",
-                        },
-                    },
-                    "oneOf": [
-                        {"required": ["fileUrl"]},
-                        {"required": ["fileBase64"]},
-                    ],
-                },
-            )
-        ]
+    @mcp.tool()
+    async def convert_to_markdown_tool(file_url: str = None, file_base64: str = None) -> str:
+        """
+        Convert documents (PDF, DOCX, PPTX, XLSX, images, etc.) to clean Markdown.
+        Supports 29+ file formats. Ideal for RAG pipelines, knowledge bases, and AI workflows.
 
-    # Register tool handler
-    @server.call_tool()
-    async def call_tool(name: str, arguments: Any) -> list[TextContent]:
-        if name == "convert_to_markdown":
-            markdown = await convert_to_markdown(arguments)
-            return [TextContent(type="text", text=markdown)]
-        else:
-            raise ValueError(f"Unknown tool: {name}")
+        Args:
+            file_url: URL of the document to convert
+            file_base64: Base64-encoded file content (alternative to URL)
 
-    # Start server using stdio transport
+        Returns:
+            Clean Markdown text
+        """
+        arguments = {}
+        if file_url:
+            arguments['fileUrl'] = file_url
+        if file_base64:
+            arguments['fileBase64'] = file_base64
+
+        return await convert_to_markdown(arguments)
+
     Actor.log.info('MCP Server initialized with convert_to_markdown tool')
 
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(read_stream, write_stream, server.create_initialization_options())
+    # Run HTTP MCP server using streamable HTTP transport
+    Actor.log.info(f'Starting HTTP MCP server on port {port}...')
+
+    # Run the streamable HTTP server (host and port configured in __init__)
+    await mcp.run_streamable_http_async()
